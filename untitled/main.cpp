@@ -1,9 +1,9 @@
+﻿#include "t.h"
 #include <iostream>
 
-using namespace std;
-
-int main(int argc, char *argv[])
+int main(void)
 {
-    cout << "Hello World!" << endl;
-    return 0;
+    //std::cout << traits(1, int());
+
 }
+
