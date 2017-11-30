@@ -4,9 +4,12 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    vector.cpp
+    cstl_vector.cpp
 
 HEADERS += \
     cstl_alloc.h \
     t.h \
-    vector.h
+    cstl_iterator.h \
+    cstl_type_traits.h \
+    cstl_algorithm.h \
+    cstl_vector.h
