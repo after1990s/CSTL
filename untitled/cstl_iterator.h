@@ -24,15 +24,17 @@ struct iterator_traits{
     typedef typename T::difference_type difference_type; //count():
     typedef typename T::pointer pointer;
     typedef typename T::reference reference;
+    typedef typename T::is_POD_type is_POD_type;
 };
 
 template <class T>
 struct iterator_traits<T*>{
     typedef typename random_access_iterator_tag iterator_category;
-    typedef typename T::value_type value_type;
+    typedef typename T value_type;
     typedef typename ptrdiff_t difference_type;
     typedef typename T* pointer;
     typedef typename T& reference;
+    typedef typename __true_type is_POD_type;
 };
 
 template <class T>
@@ -42,6 +44,7 @@ struct iterator_traits<const T*>{
     typedef typename T::difference_type difference_type;
     typedef typename T* pointer;
     typedef typename T& reference;
+    typedef typename __true_type is_POD_type;
 };
 
 //begin advance.将itr前进/后退n次， inputitr禁止n为负数
@@ -93,6 +96,13 @@ distance(InputItr first, InputItr last) {
     typedef typename iterator_traits<InputItr>::iterator_category category;
     return __distance(first, last, category());
 }
+
+template<class InputItr>
+inline typename iterator_traits<InputItr>::value_type
+value_type(const InputItr &){
+    return static_cast<typename iterator_traits<InputItr>::value_type>(0);
+}
+
 //end distance
 
 }

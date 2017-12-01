@@ -23,7 +23,24 @@ protected:
     iterator end_of_storage;
 
     void insert_aux(iterator pos, const T & x) {
-        T * newmem = data_allocator.alloc(??);
+        if (pos + 1 > end_of_storage|| end_of_storage == 0) {
+            size_type origsize= finish-start;
+            size_type newsize = end_of_storage - start;
+            newsize = newsize * 2;
+            T* newmem = data_allocator.allocate(newsize);
+            uninitialized_copy(start, finish, (T*)newmem);
+            data_allocator.deallocate(start, finish-start);
+            start = newmem;
+            end_of_storage = newmem + newsize;
+            finish = newmem + origsize;
+            construct(start+origsize, x);
+            finish++;
+        } else if (pos==finish){
+            construct(pos, x);
+            finish++;
+        } else {
+
+        }
     }
 
     void deallocate() {
@@ -38,10 +55,10 @@ protected:
         end_of_storage = finish;
     }
 public:
-    iterator begin() {
+    iterator begin() const{
         return start;
     }
-    iterator end() {
+    iterator end() const{
         return finish;
     }
     size_t size() const {
@@ -87,7 +104,6 @@ public:
         } else {
             insert_aux (finish, x);            
         }
-
     }
 
     void pop_back() {

@@ -5,6 +5,7 @@
 class K{
 public:
     K(int i): m_i(i){}
+    K(const K& k) : m_i(k.m_i){}
     ~K(){std::cout << m_i << " ";}
     int m_i;
 };
@@ -12,18 +13,27 @@ public:
 int main(void)
 {
     //std::cout << traits(1, int());
-    /*std::vector<K> t0 = {1,2,3,4,5,6,7,8,9};
-    std::vector<K>::iterator itr_begin = ++t0.begin ();
-    std::vector<K>::iterator itr_end = itr_begin + 3;
-    t0.erase (itr_begin, itr_end);*/
-    CSTL::vector<K> t1;
-    t1.push_back (K(1));
-    t1.push_back (K(2));
-    CSTL::vector<K>::iterator itr_begin = t1.begin ();
-    itr_begin++;
+    CSTL::vector<K> t0;
+    int u, u1;
+    std::cin>> u;
+    t0.push_back (K(1));
+    t0.push_back (K(2));
+    t0.push_back (K(3));
+    t0.push_back (K(4));
+    t0.push_back (K(5));
+    t0.push_back (K(6));
+    t0.push_back (K(7));
+
+    CSTL::vector<K>::iterator itr_begin = t0.begin ();
     CSTL::vector<K>::iterator itr_end = itr_begin + 3;
-    t1.erase (itr_begin, itr_end);
-    int k ;
+    t0.erase (itr_begin, itr_end);
+    CSTL::vector<int> t1;
+    t1.push_back (0);
+    t1.push_back (2);
+    t1.push_back (3);
+    t1.pop_back ();
+    t1.erase (0);
+    int k;
     std::cin >> k;
 }
 

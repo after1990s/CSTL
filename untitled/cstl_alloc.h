@@ -57,6 +57,12 @@ ForwardItr uninitialized_copy(InputItr first, InputItr last, ForwardItr result) 
 }
 
 template<class InputItr, class ForwardItr,class T1>
+ForwardItr __uninitialized_copy(InputItr first, InputItr last, ForwardItr result, T1) {
+    typedef typename __type_traits<T1>::is_POD_type is_POD;
+    return __uninitialized_copy_aux(first, last, result, is_POD());
+}
+
+template<class InputItr, class ForwardItr,class T1>
 ForwardItr __uninitialized_copy(InputItr first, InputItr last, ForwardItr result, T1*) {
     typedef typename __type_traits<T1>::is_POD_type is_POD;
     return __uninitialized_copy_aux(first, last, result, is_POD());
@@ -66,14 +72,15 @@ template<class InputItr, class ForwardItr>
 inline ForwardItr __uninitialized_copy_aux(InputItr first, InputItr last, ForwardItr result, __false_type) {
     InputItr cur = first;
     for (; cur != last; ++cur, ++result) {
-        _construct(&*cur, result);
+        _construct(result, *cur);
     }
     return cur;
 }
 
 template<class InputItr, class ForwardItr>
 inline ForwardItr __uninitialized_copy_aux(InputItr first, InputItr last, ForwardItr result, __true_type) {
-    return copy(first, last, result);
+     copy(first, last, result);
+     return result;
 }
 
 template<class InputItr, class ForwardItr>
@@ -160,10 +167,12 @@ public:
     };
 
     pointer  allocate(size_type n, const void * hint = 0){
+        hint=hint;
         return _allocate((difference_type)n, (pointer)0);
     }
 
     void deallocate(pointer p, size_type n){
+        n=n;
         _deallocate(p);
     }
 

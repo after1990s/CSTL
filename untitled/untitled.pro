@@ -13,3 +13,5 @@ HEADERS += \
     cstl_type_traits.h \
     cstl_algorithm.h \
     cstl_vector.h
+QMAKE_LFLAGS_DEBUG += /DEBUG
+QMAKE_CXXFLAGS_DEBUG += /MTd
