@@ -36,12 +36,28 @@ struct __list_iterator{
     reference operator *() const { return (*node).data;}
     pointer operator->() const {return &(operator *());} // return ref of data.
     self& operator++() {
-        node = (link_type)(node)
+        node = (link_type)(node->next);
+        return *this;
+    }
+    self operator++(int){
+        self tmp = *this;
+        ++(*this);
+        return tmp;
+    }
+    self& operator--() {
+        node = (link_type)(node->prev);
+        return *this;
+    }
+    self operator --(int) {
+        self tmp = *this;
+        --*this;
+        return tmp;
     }
 
 
 };
 
+//
 class list
 {
 public:
