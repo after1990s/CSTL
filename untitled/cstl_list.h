@@ -1,7 +1,8 @@
 #ifndef CSTL_LIST_H
 #define CSTL_LIST_H
+#include "cstl_alloc.h"
 #include "cstl_iterator.h"
-namespace cstl {
+namespace CSTL {
 
 template<class T>
 struct __list_node{
@@ -57,11 +58,59 @@ struct __list_iterator{
 
 };
 
-//
+template<class T, class Alloc = allocator<T>>
 class list
 {
+protected:
+    typedef __list_node<T> list_node;
+    Alloc data_allocator;
 public:
-    list();
+    typedef list_node* link_type;
+
+    list() { empty_init(); }
+
+
+    iterator begin() {return node->next;}
+    iterator end() {return node;}
+    bool empty() const {return node->next == node->prev;}
+    size_type size() const
+    {
+        size_type result;
+        distance(begin(), end(), result);
+        return result;
+    }
+protected:
+    link_type get_node()
+    {
+        return reinterpret_cast<link_type>(data_allocator.allocate(sizeof(list_node)));
+    }
+    void put_node(link_type p)
+    {
+        data_allocator.deallocate(p);
+    }
+    void empty_init()
+    {
+        node = get_node();
+        node->next = node;
+        node->prev = node;
+    }
+    link_type create_node(const T& x)
+    {
+        link_type p = get_node();
+        data_allocator.construct(&p->data, x);
+        return p;
+    }
+
+    void destroy_node(link_type p) {
+        data_allocator.destroy(&p->data);
+        put_node(p);
+    }
+
+protected:
+    link_type node;
+
+
+
 };
 }
 

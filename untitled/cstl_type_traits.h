@@ -109,7 +109,7 @@ namespace CSTL{
         using has_trivial_assignment_constructor = __true_type;
         using is_POD_type = __true_type;
     };
-};
+}
 
 
 #endif // TYPE_TRAITS_H

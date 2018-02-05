@@ -1,6 +1,7 @@
 ﻿#ifndef CSTL_ITERATOR_H
 #define CSTL_ITERATOR_H
 #include <cstddef>
+#include "cstl_type_traits.h"
 namespace CSTL {
 struct input_iterator_tag {};
 struct output_iterator_tag {};

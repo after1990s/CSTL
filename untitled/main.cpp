@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "cstl_vector.h"
+#include "cstl_list.h"
 class K{
 public:
     K(int i): m_i(i){}
@@ -32,8 +33,9 @@ int main(void)
     t1.push_back (2);
     t1.push_back (3);
     t1.pop_back ();
-    t1.erase (0);
+    //t1.erase (0);//not prevent at complied time.
     int k;
-    std::cin >> k;
+    CSTL::list<int> l0;
+    l0 = l0;
 }
 
