@@ -27,6 +27,9 @@ protected:
             size_type origsize= finish-start;
             size_type newsize = end_of_storage - start;
             newsize = newsize * 2;
+            if (newsize == 0) {
+                newsize = 4096;//1k page.
+            }
             T* newmem = data_allocator.allocate(newsize);
             uninitialized_copy(start, finish, (T*)newmem);
             data_allocator.deallocate(start, finish-start);

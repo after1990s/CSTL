@@ -1,4 +1,4 @@
-#ifndef CSTL_LIST_H
+﻿#ifndef CSTL_LIST_H
 #define CSTL_LIST_H
 #include "cstl_alloc.h"
 #include "cstl_iterator.h"
@@ -6,9 +6,9 @@ namespace CSTL {
 
 template<class T>
 struct __list_node{
-    typedef void* void_pointer;
-    void_pointer prev;
-    void_pointer next;
+    typedef __list_node* __list_node_pointer;
+    __list_node_pointer prev;
+    __list_node_pointer next;
     T data;
 };
 
@@ -58,11 +58,15 @@ struct __list_iterator{
 
 };
 
-template<class T, class Alloc = allocator<T>>
+template<class T, class Alloc = allocator<__list_node<T>>>
 class list
 {
 protected:
     typedef __list_node<T> list_node;
+    typedef T& reference;
+    typedef const T& const_reference;
+    typedef __list_iterator<T, T&, Alloc> iterator;
+    typedef unsigned int size_type;
     Alloc data_allocator;
 public:
     typedef list_node* link_type;
@@ -76,9 +80,91 @@ public:
     size_type size() const
     {
         size_type result;
-        distance(begin(), end(), result);
+
+        //result = distance(begin(), end());
         return result;
     }
+
+    const_reference back() const {
+        *node->prev;
+    }
+    reference back() {
+        *node->prev;
+    }
+    const_reference front() const {
+        *node->next;
+    }
+    reference front() {
+        *node->next;
+    }
+    //在 pos 前插入 value
+    iterator insert(iterator pos, const_reference value) {
+        link_type n = get_node ();
+        if (begin() == end()) {
+            n->prev = n;
+            n->next = pos.node;
+            pos.node->prev = n;
+            pos.node->next = n;
+        } else {
+            if (pos == begin()) {
+                n->prev = n;
+            } else {
+                n->prev = pos.node->prev->prev;
+                pos.node->prev->next = n;
+            }
+            n->next = pos.node;
+            pos.node->prev = n;
+        }
+        (n->data) = value;
+        return __list_iterator<T, T&, Alloc>(n);
+    }
+
+    void push_back(const_reference value) {
+        insert(iterator(node), value);
+    }
+
+    void push_front(const_reference value) {
+        node->next = insert(iterator(node->next), value).node;
+
+    }
+
+    //返回擦除的项目后一项的itr或者end()
+    iterator erase(iterator pos) {
+        if (pos == end()) {
+            return end();
+        }
+        if (pos == begin()) {
+            node->next = pos.node->next;
+        } else {
+            pos.node->prev->next = pos.node->next;
+            pos.node->next->prev = pos.node->prev;
+        }
+        put_node(pos.node);
+    }
+    //前闭后开区间
+    iterator erase(iterator first, iterator last) {
+        if (first == last) {
+            return first;
+        }
+        if (last != end()) {
+            first.node->prev->next = last.node->next;
+            last.node->next->prev = first.node->prev;
+        } else {
+            first.node->prev->next = last.node;
+        }
+        for (iterator itr = first; itr != last; itr++) {
+            data_allocator.destroy(itr.node->data);
+            put_node(itr.node);
+        }
+    }
+    void pop_back() {
+        erase(--end());
+    }
+
+    void pop_front() {
+        erase(begin ());
+    }
+
 protected:
     link_type get_node()
     {
@@ -86,7 +172,7 @@ protected:
     }
     void put_node(link_type p)
     {
-        data_allocator.deallocate(p);
+        data_allocator.deallocate(p, 0);
     }
     void empty_init()
     {
@@ -97,12 +183,13 @@ protected:
     link_type create_node(const T& x)
     {
         link_type p = get_node();
-        data_allocator.construct(&p->data, x);
+        p->data = x;
+        //data_allocator.construct(&p->data, x);
         return p;
     }
 
     void destroy_node(link_type p) {
-        data_allocator.destroy(&p->data);
+        //data_allocator.destroy(&p->data);
         put_node(p);
     }
 
