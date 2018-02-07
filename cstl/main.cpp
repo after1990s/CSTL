@@ -18,7 +18,6 @@ int main(void)
     //std::cout << traits(1, int());
     CSTL::vector<K> t0;
     int u, u1;
-
     t0.push_back (K(1));
     t0.push_back (K(2));
     t0.push_back (K(3));
@@ -50,6 +49,7 @@ int main(void)
     for (auto i = l0.begin (); i != l0.end (); i++) {
         std::cout << *i;
     }
+
     std::cin >> u;
     l0 = l0;
 }

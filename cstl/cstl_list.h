@@ -99,22 +99,14 @@ public:
     }
     //在 pos 前插入 value
     iterator insert(iterator pos, const_reference value) {
-        link_type n = get_node ();
-        if (begin() == end()) {
-            n->prev = n;
-            n->next = pos.node;
-            pos.node->prev = n;
-            pos.node->next = n;
-        } else {
-            if (pos == begin()) {
-                n->prev = n;
-            } else {
-                n->prev = pos.node->prev->prev;
-                pos.node->prev->next = n;
-            }
-            n->next = pos.node;
-            pos.node->prev = n;
-        }
+        link_type n = get_node (); 
+		link_type prev = pos.node->prev;
+
+		n->next = pos.node;
+		n->prev = prev;
+		prev->next = n;
+		pos.node->prev = n;
+
         (n->data) = value;
         return __list_iterator<T, T&, Alloc>(n);
     }
@@ -133,26 +125,33 @@ public:
         if (pos == end()) {
             return end();
         }
+		/*
         if (pos == begin()) {
             node->next = pos.node->next;
         } else {
-            pos.node->prev->next = pos.node->next;
-            pos.node->next->prev = pos.node->prev;
-        }
+
+        }*/
+		link_type next = pos.node->next;
+		link_type prev = pos.node->prev;
+
+		next->prev = prev;
+		prev->next = next;
+			
         put_node(pos.node);
+		return iterator(next);
     }
-    //前闭后开区间
+    //前闭后开区间, return (last).
     iterator erase(iterator first, iterator last) {
         if (first == last) {
             return first;
         }
-        if (last != end()) {
-            first.node->prev->next = last.node->next;
-            last.node->next->prev = first.node->prev;
-        } else {
-            first.node->prev->next = last.node;
-        }
-        for (iterator itr = first; itr != last; itr++) {
+		link_type prev = first.node->prev;
+		link_type next = last.node;
+        
+		prev->next = next;
+		next->prev = prev;
+
+        for (iterator itr = first; itr != last; itr++) {                
             data_allocator.destroy(itr.node->data);
             put_node(itr.node);
         }
@@ -184,15 +183,14 @@ protected:
     {
         link_type p = get_node();
         p->data = x;
-        //data_allocator.construct(&p->data, x);
+        data_allocator.construct(&p->data, x);
         return p;
     }
 
     void destroy_node(link_type p) {
-        //data_allocator.destroy(&p->data);
+        data_allocator.destroy(&p->data);
         put_node(p);
     }
-
 protected:
     link_type node;
 
