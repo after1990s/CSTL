@@ -1,5 +1,7 @@
 ﻿#ifndef VECTOR_H
 #define VECTOR_H
+
+#include "cstl_api.h"
 #include "cstl_alloc.h"
 #include "cstl_algorithm.h"
 #include <inttypes.h>

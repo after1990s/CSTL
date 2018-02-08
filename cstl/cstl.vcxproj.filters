@@ -39,6 +39,9 @@
     <ClInclude Include="cstl_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cstl_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cstl_list.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cstl_api.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

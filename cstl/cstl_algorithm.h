@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "cstl_type_traits.h"
 #include "cstl_iterator.h"
+#include "cstl_api.h"
 namespace CSTL {
 
 template<class ForwardItr, class T>
@@ -53,7 +54,10 @@ inline int* copy(int *first, int * last, int *res) {
 template<class InputItr, class OutputItr>
 struct __copy_dispatch {
     OutputItr operator ()(InputItr first, InputItr last, OutputItr res) {
-        return __copy(first, last, res, iterator_category(first));
+        static_assert(false);
+        return OutputItr();
+
+        //return __copy(first, last, res, iterator_category(first));
     }
 };
 }

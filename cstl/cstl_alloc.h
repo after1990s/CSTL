@@ -1,26 +1,27 @@
 ﻿#ifndef CSTL_ALLOC_H
 #define CSTL_ALLOC_H
-#include <new>
 #include <cstddef>
 #include <climits>
-#include <iostream>
+#include "cstl_api.h"
 #include "cstl_type_traits.h"
+
+
 namespace CSTL {
 template <class T>
 inline T * _allocate(ptrdiff_t size, T*){
-    std::set_new_handler(0);//we handle alloc failed.disable default one.
+    //std::set_new_handler(0);//we handle alloc failed.disable default one.
 
-    T *tmp = reinterpret_cast<T*>((::operator new ((size_t)(size * sizeof(T)))));
+    T *tmp = reinterpret_cast<T*>((operator new ((size_t)(size * sizeof(T)))));
     if (tmp == nullptr){
-        std::cerr << "out of memory" << std::endl;
-        exit(1);
+        //std::cerr << "out of memory" << std::endl;
+        //exit(1);
     }
     return tmp;
 }
 
 template <class T>
 inline void _deallocate(T *buffer){
-    ::operator delete (buffer);
+    operator delete (buffer);
 }
 
 template<class T1, class T2>
@@ -86,13 +87,16 @@ inline ForwardItr __uninitialized_copy_aux(InputItr first, InputItr last, Forwar
 
 template<class InputItr, class ForwardItr>
 inline ForwardItr __uninitialized_copy_aux(const char* fist, const char* last, char * result) {
-    memmove_s(first, last-first, result, last-first);
+    //memmove_s(first, last-first, result, last-first);
+    MoveMemory(first, result, last - first);
+
     return result + (last-first);
 }
 
 template<class InputItr, class ForwardItr>
 inline ForwardItr __uninitialized_copy_aux(const wchar_t* fist, const wchar_t* last, wchar_t * result) {
-    memmove_s(first, last-first, result, last-first);
+    //memmove_s(first, last-first, result, last-first);
+    MoveMemory(first, result, (last - first) * sizeof(wchar_t));
     return result + (last-first);
 }
 //end uninitialized_copy

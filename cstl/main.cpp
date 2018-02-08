@@ -1,6 +1,4 @@
 ﻿#include "t.h"
-#include <iostream>
-#include <vector>
 #include "cstl_vector.h"
 #include "cstl_list.h"
 class K{
@@ -13,18 +11,19 @@ public:
     int m_i;
 };
 
-int main(void)
+int main(int argc, char* argv[])
 {
-    //std::cout << traits(1, int());
     CSTL::vector<K> t0;
     int u, u1;
-    t0.push_back (K(1));
-    t0.push_back (K(2));
-    t0.push_back (K(3));
-    t0.push_back (K(4));
-    t0.push_back (K(5));
-    t0.push_back (K(6));
-    t0.push_back (K(7));
+    t0.push_back(K(1));
+    t0.push_back(K(2));
+    t0.push_back(K(3));
+    t0.push_back(K(4));
+    t0.push_back(K(5));
+    t0.push_back(K(6));
+    t0.push_back(K(7));
+    //std::cout << traits(1, int());
+    /*
 
     CSTL::vector<K>::iterator itr_begin = t0.begin ();
     CSTL::vector<K>::iterator itr_end = itr_begin + 3;
@@ -51,6 +50,6 @@ int main(void)
     }
 
     std::cin >> u;
-    l0 = l0;
+    l0 = l0;*/
 }
 
