@@ -67,6 +67,7 @@ protected:
     typedef const T& const_reference;
     typedef __list_iterator<T, T&, Alloc> iterator;
     typedef unsigned int size_type;
+    typedef list<T, Alloc> self;
     Alloc data_allocator;
 public:
     typedef list_node* link_type;
@@ -163,8 +164,40 @@ public:
     void pop_front() {
         erase(begin ());
     }
+    void clear();
+    void remove(const T & value) {
 
+    }
+    //清除数值相同的连续元素，只有“连续相同且相等的元素，才会被移除到剩余一个
+    void unique() {
+
+    }
+    //将x连接到pos位置前
+    void splice(iterator pos,list& x) {
+
+    }
+
+    //only transfer one item *i
+    void splice(iterator pos, list& other, iterator i) {
+
+    }
+    void splice(iterator pos, list& other, iterator first, iterator last) {
+
+    }
+    void merge(self &other) {
+
+    }
+    void reverse() {
+
+    }
+    void sort() {
+        
+    }
 protected:
+    //将[first，last）元素移动到pos前
+    void transfer(iterator pos, iterator first, iterator last) {
+
+    }
     link_type get_node()
     {
         return reinterpret_cast<link_type>(data_allocator.allocate(sizeof(list_node)));
@@ -193,9 +226,6 @@ protected:
     }
 protected:
     link_type node;
-
-
-
 };
 }
 
