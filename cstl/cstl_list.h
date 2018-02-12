@@ -18,21 +18,21 @@ struct __list_iterator{
     typedef __list_iterator<T, Ref, Ptr> self;
 
     typedef bidirectional_iterator_tag iterator_category;
-    typedef T type_value;
+    typedef T value_type;
     typedef Ptr pointer;
     typedef Ref reference;
     typedef __list_node<T>* link_type;
     typedef size_t size_type;
     typedef ptrdiff_t difference_type;
-
+    typedef __false_type is_POD_type;
     link_type node;
 
     __list_iterator(link_type x) : node (x) {}
     __list_iterator() {}
     __list_iterator(const __list_iterator &x) : node(x.node){}
 
-    bool operator== (const self &x) {return node == x.node;}
-    bool operator!= (const self &x) {return node != x.node;}
+    bool operator== (const self &x) const {return node == x.node;}
+    bool operator!= (const self &x) const {return node != x.node;}
 
     reference operator *() const { return (*node).data;}
     pointer operator->() const {return &(operator *());} // return ref of data.
@@ -75,14 +75,15 @@ public:
     list() { empty_init(); }
 
 
-    iterator begin() {return node->next;}
-    iterator end() {return node;}
+    iterator begin() const {return node->next;}
+    iterator end() const  {return node;}
     bool empty() const {return node->next == node->prev;}
     size_type size() const
     {
         size_type result;
-
-        //result = distance(begin(), end());
+        iterator b = begin();
+        iterator e = end();
+        result = distance(b,e);
         return result;
     }
 
@@ -100,13 +101,13 @@ public:
     }
     //在 pos 前插入 value
     iterator insert(iterator pos, const_reference value) {
-        link_type n = get_node (); 
-		link_type prev = pos.node->prev;
+        link_type n = get_node();
+        link_type prev = pos.node->prev;
 
-		n->next = pos.node;
-		n->prev = prev;
-		prev->next = n;
-		pos.node->prev = n;
+        n->next = pos.node;
+        n->prev = prev;
+        prev->next = n;
+        pos.node->prev = n;
 
         (n->data) = value;
         return __list_iterator<T, T&, Alloc>(n);
@@ -126,33 +127,33 @@ public:
         if (pos == end()) {
             return end();
         }
-		/*
+        /*
         if (pos == begin()) {
             node->next = pos.node->next;
         } else {
 
         }*/
-		link_type next = pos.node->next;
-		link_type prev = pos.node->prev;
+        link_type next = pos.node->next;
+        link_type prev = pos.node->prev;
 
-		next->prev = prev;
-		prev->next = next;
-			
+        next->prev = prev;
+        prev->next = next;
+
         put_node(pos.node);
-		return iterator(next);
+        return iterator(next);
     }
     //前闭后开区间, return (last).
     iterator erase(iterator first, iterator last) {
         if (first == last) {
             return first;
         }
-		link_type prev = first.node->prev;
-		link_type next = last.node;
-        
-		prev->next = next;
-		next->prev = prev;
+        link_type prev = first.node->prev;
+        link_type next = last.node;
 
-        for (iterator itr = first; itr != last; itr++) {                
+        prev->next = next;
+        next->prev = prev;
+
+        for (iterator itr = first; itr != last; itr++) {
             data_allocator.destroy(itr.node->data);
             put_node(itr.node);
         }
@@ -162,41 +163,107 @@ public:
     }
 
     void pop_front() {
-        erase(begin ());
+        erase(begin());
     }
-    void clear();
+    void clear() {
+        erase(begin(), end());
+    }
+    
     void remove(const T & value) {
-
+        for (iterator itr = begin(); itr != end(); )
+        {
+            iterator next = itr;
+            next++;
+            if (itr.node->data == value)
+            {
+                erase(itr);
+            }
+            itr = next;
+        }
     }
     //清除数值相同的连续元素，只有“连续相同且相等的元素，才会被移除到剩余一个
     void unique() {
-
+        if (size() < 1)
+        {
+            return;
+        }
+        for (iterator itr = begin(); itr != --end(); itr++)
+        {
+            iterator itr_n = itr;
+            itr_n++;
+            if (*itr_n == *itr)
+            {
+                erase(itr_n);
+            }
+        }
     }
     //将x连接到pos位置前
     void splice(iterator pos,list& x) {
-
+        transfer(pos, x.begin(), x.end());
     }
 
     //only transfer one item *i
-    void splice(iterator pos, list& other, iterator i) {
-
+    void splice(iterator pos, list&, iterator i) {
+        iterator j = i;
+        j++;
+        transfer(pos, i, j);
     }
-    void splice(iterator pos, list& other, iterator first, iterator last) {
 
+    void splice(iterator pos, list&, iterator first, iterator last) {
+        if (first != last) {
+            transfer(pos, first, last);
+        }
     }
     void merge(self &other) {
-
+        transfer(end(), other.begin(), other.end());
     }
     void reverse() {
+        if (size() == 0 || size() == 1) {
+            return;
+        }
+        iterator first = begin();
+        while (first != end())
+        {
+            iterator second = first.node->next;
+            ++first;
+            transfer(begin(), second, first);
+        }
 
     }
+    void swap(self &other)
+    {
+        if (this == &other) {
+            return;
+        }
+        if (size() == 0 && other.size() == 0) {
+            return;
+        }
+        CSTL::swap(node, other.node);
+        //->prevCSTL::swap(node->next, other.node->next);
+    }
+
     void sort() {
-        
+        static_assert(false);
     }
 protected:
     //将[first，last）元素移动到pos前
     void transfer(iterator pos, iterator first, iterator last) {
+        if (pos != end())
+        {
+            link_type begin = first.node->prev;
+            link_type end = last;
 
+            begin->next = end;
+            end->prev = begin;
+
+            link_type pos_begin = pos.node->prev;
+            link_type pos_end = pos.node->next;
+
+            first.node.prev = pos_begin;
+            pos_begin->next = first;
+            last.node.prev = pos.node;
+            pos.node->next = last.node;
+        }
     }
     link_type get_node()
     {

@@ -95,7 +95,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -127,7 +127,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -146,8 +146,10 @@
     <ClInclude Include="cstl_algorithm.h" />
     <ClInclude Include="cstl_alloc.h" />
     <ClInclude Include="cstl_api.h" />
+    <ClInclude Include="cstl_initializer_list.h" />
     <ClInclude Include="cstl_iterator.h" />
     <ClInclude Include="cstl_list.h" />
+    <ClInclude Include="cstl_numberic.h" />
     <ClInclude Include="cstl_type_traits.h" />
     <ClInclude Include="cstl_vector.h" />
     <ClInclude Include="t.h" />

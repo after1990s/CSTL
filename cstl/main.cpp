@@ -1,4 +1,5 @@
 ﻿#include "t.h"
+#include <initializer_list>
 #include "cstl_vector.h"
 #include "cstl_list.h"
 class K{
@@ -22,6 +23,9 @@ int main(int argc, char* argv[])
     t0.push_back(K(5));
     t0.push_back(K(6));
     t0.push_back(K(7));
+    //CSTL::vector<int> k1 = { 0,1,2,34,5,6 };
+    //auto k0 = { 0,1,2,3,4,5 };
+    
     //std::cout << traits(1, int());
     /*
 

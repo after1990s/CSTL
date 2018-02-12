@@ -6,6 +6,17 @@
 #include "cstl_api.h"
 namespace CSTL {
 
+template<class InputItr, class T>
+InputItr find(InputItr first, InputItr last, const T& value)
+{
+    for (InputItr itr = first; itr != last; itr++)
+    {
+        if (*itr == value)
+        {
+            return itr;
+        }
+    }
+}
 template<class ForwardItr, class T>
 void fill(ForwardItr first, ForwardItr last, const T& value) {
     for (; first != last; ++first) {
@@ -60,5 +71,19 @@ struct __copy_dispatch {
         //return __copy(first, last, res, iterator_category(first));
     }
 };
+
+template<class T>
+void swap(T& t0, T& t1) {
+    T tmp = t0;
+    t0 = t1;
+    t1 = tmp;
+}
+
+template<class T>
+void swap(T*& t0, T*& t1) {
+    T* tmp = t0;
+    t0 = t1;
+    t1 = tmp;
+}
 }
 #endif // CSTL_ALGORITHM_H

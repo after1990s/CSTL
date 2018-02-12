@@ -11,4 +11,7 @@
 #include "CppUnitTest.h"
 
 // TODO: reference additional headers your program requires here
+#include "../cstl/cstl_numberic.h"
 #include "../cstl/cstl_vector.h"
+#include "../cstl/cstl_list.h"
+#include <vector>

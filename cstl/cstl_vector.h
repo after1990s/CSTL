@@ -1,10 +1,12 @@
 ﻿#ifndef VECTOR_H
 #define VECTOR_H
-
+#include <initializer_list>
+#include <inttypes.h>
+#include <stdarg.h>
 #include "cstl_api.h"
 #include "cstl_alloc.h"
 #include "cstl_algorithm.h"
-#include <inttypes.h>
+#include "cstl_initializer_list.h"
 
 namespace CSTL {
 template<class T,class Alloc = allocator<T>>
@@ -67,7 +69,7 @@ public:
         return finish;
     }
     size_t size() const {
-        return size_type(end() - bein());
+        return size_type(end() - begin());
     }
     size_type capacity() const{
         return size_type(end_of_storage - start);
@@ -79,10 +81,17 @@ public:
         return *(begin() + n);
     }
 
+    /*vector(std::initializer_list<T> t, const Alloc al = Alloc()) : vector() {
+        for (auto i = t.begin(); i != t.end(); i++) {
+            push_back(*i);
+        }
+    }*/
     vector() : start(0), finish(0), end_of_storage(0) { }
+
     vector(size_type n, const T & value) {
         fill_initialize (n, value);
     }
+
     vector(int n, const T & value) {
         fill_initialize (n, value);
     }

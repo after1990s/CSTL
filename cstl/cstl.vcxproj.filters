@@ -42,6 +42,12 @@
     <ClInclude Include="cstl_api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cstl_numberic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cstl_initializer_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cstl_list.cpp">
