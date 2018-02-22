@@ -38,8 +38,8 @@ void __cdecl operator delete[](void *p)
         DBG_ASSERT(FALSE);
     }
 }
-
+/*
 void* _cdecl operator new(size_t, void* where)
 {
     return where;
-}
+}*/

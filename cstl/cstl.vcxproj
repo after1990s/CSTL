@@ -149,6 +149,7 @@
     <ClInclude Include="cstl_initializer_list.h" />
     <ClInclude Include="cstl_iterator.h" />
     <ClInclude Include="cstl_list.h" />
+    <ClInclude Include="cstl_memory.h" />
     <ClInclude Include="cstl_numberic.h" />
     <ClInclude Include="cstl_type_traits.h" />
     <ClInclude Include="cstl_vector.h" />

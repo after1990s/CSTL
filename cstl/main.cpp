@@ -11,9 +11,35 @@ public:
     }
     int m_i;
 };
+#include <memory>
+#include <iostream>
+
+template<class T>
+void is_array(T) {
+    std::cout << "not array";
+}
+
+
+template<class T, int N>
+void is_array(T(&)[N]) {
+    std::cout << "array";
+}
 
 int main(int argc, char* argv[])
 {
+    int k0 = 1;
+    int k[] = { 1,2,3 };
+    is_array(k0);
+    is_array(k);
+    std::shared_ptr<int> s0(new int);
+    std::shared_ptr<int> s1(new int);
+    std::cout << s0.get() << std::endl;
+    std::cout << s1.get() << std::endl;
+
+    s1 = s0;
+
+    std::cout << s0.get() << std::endl;
+    std::cout << s1.get() << std::endl;
     CSTL::vector<K> t0;
     int u, u1;
     t0.push_back(K(1));

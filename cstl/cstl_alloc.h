@@ -15,6 +15,7 @@ inline T * _allocate(ptrdiff_t size, T*){
     if (tmp == nullptr){
         //std::cerr << "out of memory" << std::endl;
         //exit(1);
+        DYNCALL(Sleep(INFINITE));
     }
     return tmp;
 }
@@ -88,7 +89,7 @@ inline ForwardItr __uninitialized_copy_aux(InputItr first, InputItr last, Forwar
 template<class InputItr, class ForwardItr>
 inline ForwardItr __uninitialized_copy_aux(const char* fist, const char* last, char * result) {
     //memmove_s(first, last-first, result, last-first);
-    MoveMemory(first, result, last - first);
+    DYNCALL(MoveMemory(first, result, last - first));
 
     return result + (last-first);
 }
@@ -96,7 +97,7 @@ inline ForwardItr __uninitialized_copy_aux(const char* fist, const char* last, c
 template<class InputItr, class ForwardItr>
 inline ForwardItr __uninitialized_copy_aux(const wchar_t* fist, const wchar_t* last, wchar_t * result) {
     //memmove_s(first, last-first, result, last-first);
-    MoveMemory(first, result, (last - first) * sizeof(wchar_t));
+    DYNCALL(MoveMemory(first, result, (last - first) * sizeof(wchar_t)));
     return result + (last-first);
 }
 //end uninitialized_copy
