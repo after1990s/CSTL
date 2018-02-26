@@ -2,6 +2,7 @@
 #include <initializer_list>
 #include "cstl_vector.h"
 #include "cstl_list.h"
+#include "cstl_memory.h"
 class K{
 public:
     K(int i): m_i(i){}
@@ -27,6 +28,9 @@ void is_array(T(&)[N]) {
 
 int main(int argc, char* argv[])
 {
+    CSTL::shared_ptr<int> ct0(new int(7));
+    auto ct1 = ct0;
+    std::cout << ct1.use_count() << std::endl;
     int k0 = 1;
     int k[] = { 1,2,3 };
     is_array(k0);
