@@ -40,20 +40,20 @@ inline OutputItr copy(InputItr first, InputItr last, OutputItr res) {
 
 template<>
 inline const char* copy(const char *first, const char * last, const char *res) {
-    MoveMemory((void*)res, (void*)first, last - first);
+    DYNCALL(MoveMemory((void*)res, (void*)first, last - first));
     return res;
 }
 
 
 template<>
 inline const wchar_t* copy(const wchar_t *first, const wchar_t * last, const wchar_t *res) {
-    MoveMemory((void*)res, (void*)first, sizeof(wchar_t) * (last - first));
+    DYNCALL(MoveMemory((void*)res, (void*)first, sizeof(wchar_t) * (last - first)));
     return res;
 }
 
 template<>
 inline const int * copy(const int *first, const int * last, const int *res) {
-    MoveMemory((void*)res, (void*)first, sizeof(int) * (last - first));
+    DYNCALL(MoveMemory((void*)res, (void*)first, sizeof(int) * (last - first)));
     return res;
 }
 

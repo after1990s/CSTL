@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-
+#include <memory>
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTest1
@@ -63,6 +63,11 @@ namespace UnitTest1
             //CSTL::vector<int> v4={ 1,2,3,4,5 };
 
 
+        }
+        TEST_METHOD(sharedPtrTest) {
+            int n[10] = { 1 };
+            std::shared_ptr<decltype(n)> pt(new int(3));
+            Assert::AreEqual(3, (pt)[11]);
         }
 	};
 }

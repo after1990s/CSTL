@@ -17,7 +17,7 @@ public:
     typedef value_type* pointer_type;
     typedef value_type* iterator;
     typedef value_type& reference;
-    typedef uint32_t size_type;
+    typedef uint64_t size_type;
     typedef ptrdiff_t difference_type;
 protected:
     //Alloc<value_type> data_allocator;
