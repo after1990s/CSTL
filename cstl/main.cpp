@@ -12,6 +12,20 @@ public:
     }
     int m_i;
 };
+class A {
+public:
+    A() : m_i(0) {
+
+    }
+    int add() const & {
+        return m_i + 1;
+    }
+    int add() && {
+        return m_i + 2;
+    }
+private:
+    int m_i;
+};
 #include <memory>
 #include <iostream>
 
@@ -28,6 +42,9 @@ void is_array(T(&)[N]) {
 
 int main(int argc, char* argv[])
 {
+    A a;
+    printf("%d\n", a.add());
+    printf("%d\n", std::move(a).add());
     CSTL::shared_ptr<int> ct0(new int(7));
     auto ct1 = ct0;
     std::cout << ct1.use_count() << std::endl;

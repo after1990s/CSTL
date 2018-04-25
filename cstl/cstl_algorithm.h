@@ -35,7 +35,7 @@ OutputItr fill_n(OutputItr first, Size n, const T& value) {
 
 template<class InputItr, class OutputItr>
 inline OutputItr copy(InputItr first, InputItr last, OutputItr res) {
-    return __copy_dispatch<InputItr, OutputItr>()(first, last, res);
+    return __copy_dispatch<InputItr, OutputItr>/*()*/(first, last, res);
 }
 
 template<>

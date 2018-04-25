@@ -1,7 +1,7 @@
 #pragma once
 #ifndef __CSTL_API
 #define __CSTL_API
-#include <Windows.h>
+#include <windows.h>
 #define DYNCALL(x) x
 #ifdef _DEBUG
 #define dbg_assert(x) \
