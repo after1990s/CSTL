@@ -62,6 +62,11 @@ namespace CSTL{
             };
         };
 
+        /*todo: ignore sp_enable_shared_from_this, don't know what it is.*/
+
+        /*ignore auto_ptr convert facility*/
+
+
     } //end namespace detail
 
     
