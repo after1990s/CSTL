@@ -14,5 +14,6 @@
 #include "../cstl/cstl_numberic.h"
 #include "../cstl/cstl_vector.h"
 #include "../cstl/cstl_list.h"
-#include "../cstl/cstl_memory.h""
+#include "../cstl/cstl_memory.h"
+#include "../cstl/smart_ptr/smart_ptr_meta_util.h"
 #include <vector>

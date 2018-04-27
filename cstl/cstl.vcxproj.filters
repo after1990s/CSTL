@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\smart_ptr">
+      <UniqueIdentifier>{8b5b79f0-d5f8-4f35-84e4-d13ea8396b14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cstl_algorithm.h">
@@ -48,8 +51,14 @@
     <ClInclude Include="t.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shared_ptr.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="smart_ptr\sp_count.h">
+      <Filter>Header Files\smart_ptr</Filter>
+    </ClInclude>
+    <ClInclude Include="smart_ptr\shared_ptr.h">
+      <Filter>Header Files\smart_ptr</Filter>
+    </ClInclude>
+    <ClInclude Include="smart_ptr\smart_ptr_meta_util.h">
+      <Filter>Header Files\smart_ptr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +72,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shared_ptr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -69,5 +69,39 @@ namespace UnitTest1
             std::shared_ptr<decltype(n)> pt(new int(3));
             Assert::AreEqual(3, (pt)[11]);
         }
+        TEST_METHOD(metaUtilTest) {
+            Assert::AreEqual(true, std::is_same<int, CSTL::remove_reference<int&>::type>::value);
+            Assert::AreEqual(true, std::is_same<int, CSTL::remove_reference<int&&>::type>::value);
+            Assert::AreEqual(true, std::is_same<int, CSTL::remove_reference<int>::type>::value);
+            Assert::AreEqual(false, std::is_same<double, CSTL::remove_reference<int&>::type>::value);            
+
+
+            Assert::AreEqual(true, std::is_same<int, CSTL::remove_const<const int>::type>::value);
+            //Assert::AreEqual(true, std::is_same<int&, CSTL::remove_const<const int&>::type>::value); same as std::remove_const
+           // Assert::AreEqual(true, std::is_same<int&&, CSTL::remove_const<const int&&>::type>::value);
+            Assert::AreEqual(false, std::is_same<double, CSTL::remove_const<const int>::type>::value);
+
+            Assert::AreEqual(true, std::is_same<int, CSTL::remove_volatile<volatile int>::type>::value);
+            //Assert::AreEqual(true, std::is_same<int&, CSTL::remove_volatile<volatile int&>::type>::value); same as std::remove_const
+            //Assert::AreEqual(true, std::is_same<int&&, CSTL::remove_volatile<volatile int&&>::type>::value);
+            Assert::AreEqual(false, std::is_same<double, CSTL::remove_volatile<volatile int>::type>::value);
+            
+            Assert::AreEqual(true, std::is_same<int, CSTL::remove_cv<volatile const int>::type>::value);
+            Assert::AreEqual(true, std::is_same<int, CSTL::remove_cv<const volatile int>::type>::value);
+
+
+            Assert::AreEqual(true, std::is_same<int, CSTL::remove_extent<int [7]>::type>::value);
+            Assert::AreEqual(false, std::is_same<int[7], CSTL::remove_extent<int [7]>::type>::value);
+
+
+            Assert::AreEqual(7, CSTL::extent<int[7]>::value);
+            Assert::AreEqual(0, CSTL::extent<int[]>::value);
+
+            Assert::AreEqual(true, std::is_same<const int&, CSTL::add_const_lvalue_reference<int&&>::type>::value);
+            Assert::AreEqual(true, std::is_same<const int&, CSTL::add_const_lvalue_reference<int&>::type>::value);
+            Assert::AreEqual(true, std::is_same<const int&, CSTL::add_const_lvalue_reference<int>::type>::value);
+
+
+        }
 	};
 }

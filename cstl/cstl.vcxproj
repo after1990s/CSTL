@@ -29,7 +29,9 @@
     <ClInclude Include="cstl_numberic.h" />
     <ClInclude Include="cstl_type_traits.h" />
     <ClInclude Include="cstl_vector.h" />
-    <ClInclude Include="shared_ptr.h" />
+    <ClInclude Include="smart_ptr\shared_ptr.h" />
+    <ClInclude Include="smart_ptr\smart_ptr_meta_util.h" />
+    <ClInclude Include="smart_ptr\sp_count.h" />
     <ClInclude Include="t.h" />
   </ItemGroup>
   <ItemGroup>
@@ -37,7 +39,6 @@
     <ClCompile Include="cstl_list.cpp" />
     <ClCompile Include="cstl_vector.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="shared_ptr.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
