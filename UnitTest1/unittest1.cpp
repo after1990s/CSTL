@@ -2,7 +2,21 @@
 #include "CppUnitTest.h"
 #include <memory>
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
+bool _stdcall unary_func_0() {
+    return true;
+}
+bool _cdecl unary_func_1() {
+    return true;
+}
+bool _fastcall unary_func_2() {
+    return true;
+}
+bool _stdcall unary_func_3(int a) {
+    return true;
+}
+bool _cdecl unary_func_4(int a, int b) {
+    return true;
+}
 namespace UnitTest1
 {		
 	TEST_CLASS(UnitTest1)
@@ -101,7 +115,13 @@ namespace UnitTest1
             Assert::AreEqual(true, std::is_same<const int&, CSTL::add_const_lvalue_reference<int&>::type>::value);
             Assert::AreEqual(true, std::is_same<const int&, CSTL::add_const_lvalue_reference<int>::type>::value);
 
+            Assert::AreEqual(true, __is_convertible_to(double, int));
 
+            Assert::AreEqual(false, CSTL::is_unary_function<decltype(&unary_func_0)>::value);
+            Assert::AreEqual(true, CSTL::is_unary_function<decltype(&unary_func_1)>::value);
+            Assert::AreEqual(true, CSTL::is_unary_function<decltype(&unary_func_2)>::value);
+            Assert::AreEqual(true, CSTL::is_unary_function<decltype(&unary_func_3)>::value);
+            Assert::AreEqual(false, CSTL::is_unary_function<decltype(&unary_func_4)>::value);         
         }
 	};
 }

@@ -1,5 +1,11 @@
 #pragma once
-
+#define PRAGMA_STR1(x)  #x
+#define PRAGMA_STR2(x)  PRAGMA_STR1 (x)
+#define NOTE(x)  message (__FILE__ "(" PRAGMA_STR2(__LINE__) ") : \
+		-NOTE- " #x)
+#define NOTE_wARG(x,y)  message \
+   (__FILE__ "(" PRAGMA_STR2(__LINE__) ") : \
+   -NOTE- " #x PRAGMA_STR2(y))
 namespace CSTL {
 
     template <class T>
@@ -162,5 +168,89 @@ namespace CSTL {
         template <class U> static char test(typename U::pointer* = 0);
         static const bool value = (sizeof(test<T>(0)) == 1);
     };
+    
+    //todo:pointer type.
+    template <class T, class U>
+    struct is_covertible {
+        static const bool value = __is_convertible_to(T, U);
+    };
+    
+    template <class R>
+    struct is_unary_function_impl {
+        #pragma message ( "is_unary_function_impl")
+        #pragma message (std::typeid(R).name())
+        static const bool value = false;
+    };
+   
+    template <class R>
+    struct is_unary_function_impl<R&> {
+        static const bool value = false;
+    };
 
+#if defined(_MSC_EXTENSIONS) && !defined(__BORLAND__) && !defined(_WIN64) && !defined(_M_ARM) && !defined(UNDER_CE)
+#define BOOST_MOVE_TT_TEST_MSC_FUNC_SIGS
+#endif
+#ifndef  BOOST_MOVE_TT_TEST_MSC_FUNC_SIGS
+    template <class R>
+    struct is_unary_function_impl<R(*)()> {
+        static const bool value = true;
+    };
+    template <class R>
+    struct is_unary_function_impl<R(*)(...)> {
+        static const bool value = true;
+    };
+#else
+    int xxx;
+#endif
+
+    template <typename R>
+    struct is_unary_function_impl<R(__fastcall*)()>
+    {
+        static const bool value = true;
+    };
+
+    template <typename R>
+    struct is_unary_function_impl<R(__cdecl*)()>
+    {
+        static const bool value = true;
+    };
+    template <typename R>
+    struct is_unary_function_impl<R(__cdecl*)(...)>
+    {
+        static const bool value = true;
+    };
+
+    template <typename R, class T0>
+    struct is_unary_function_impl<R(__stdcall*)(T0)>
+    {
+        static const bool value = true;
+    };
+
+#ifndef _MANAGED
+
+    template <typename R, class T0>
+    struct is_unary_function_impl<R(__fastcall*)(T0)>
+    {
+        static const bool value = true;
+    };
+
+#endif
+
+    template <typename R, class T0>
+    struct is_unary_function_impl<R(__cdecl*)(T0)>
+    {
+        static const bool value = true;
+    };
+
+    template <typename R, class T0>
+    struct is_unary_function_impl<R(__cdecl*)(T0...)>
+    {
+        static const bool value = true;
+    };
+
+    /*void (_stdcall)(void) -> false MSVC bug.*/
+    template <class R>
+    struct is_unary_function {
+        static const bool value = is_unary_function_impl<R>::value;
+    };
 }
